@@ -1,0 +1,3 @@
+[submodule "XFrame"]
+	path = XFrame
+	url = git@github.com:ximengcs/XFrame.git
