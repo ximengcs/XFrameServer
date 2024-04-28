@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "XFrameServer": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
