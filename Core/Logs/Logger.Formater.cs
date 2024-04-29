@@ -8,18 +8,14 @@ namespace XFrameServer.Core.Logs
         private class Formater
         {
             private ConsoleColor OriginColor;
-            private Dictionary<string, ConsoleColor> m_Colors;
-
-            public Formater()
-            {
-                m_Colors = new Dictionary<string, ConsoleColor>()
+            private Dictionary<string, ConsoleColor> m_Colors = new Dictionary<string, ConsoleColor>()
                 {
                     { Log.XFrame, ConsoleColor.Magenta },
                     { Log.Procedure, ConsoleColor.Yellow },
                     { Log.Condition, ConsoleColor.Blue },
                     { Log.CSV, ConsoleColor.DarkCyan }
                 };
-            }
+
 
             public void Register(string name, ConsoleColor color)
             {
@@ -29,7 +25,7 @@ namespace XFrameServer.Core.Logs
             public void Begin(string name)
             {
                 OriginColor = Console.ForegroundColor;
-                if (m_Colors.TryGetValue(name, out ConsoleColor color))
+                if (!string.IsNullOrEmpty(name) && m_Colors.TryGetValue(name, out ConsoleColor color))
                 {
                     Console.ForegroundColor = color;
                 }

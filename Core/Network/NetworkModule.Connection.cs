@@ -1,5 +1,4 @@
-﻿
-using System.Text;
+﻿using System.Text;
 using System.Net.Sockets;
 using XFrame.Modules.Diagnotics;
 using XFrame.Tasks;
@@ -8,82 +7,148 @@ namespace XFrameServer.Core.Network
 {
     public partial class NetworkModule
     {
-        private class Connection
+        private class Client
         {
-            private Socket m_Server;
-            private Socket m_Client;
+            private Socket m_Socket;
+            private XTask m_CheckTask;
+            private XTask m_BeatTask;
+            private bool m_IsConnected;
 
             private byte[] m_Cache;
-            private byte[] m_BeatData;
+            private byte[] m_BeatCache;
+            private bool m_BeatFinish;
 
-            private XTask m_ReceiveTask;
+            public bool Connect => m_IsConnected && m_Socket.Connected;
 
-            public bool Connecting { get; private set; }
-
-            public Connection(Socket server)
+            public Client(Socket socket)
             {
-                m_Server = server;
+                Log.Debug($"[{GetHashCode()}]client connect");
+                m_Socket = socket;
                 m_Cache = new byte[1024];
-                m_BeatData = new byte[8];
-                Start();
-            }
-
-            public void Update()
-            {
-                if (Connecting)
-                {
-                    if (!m_Client.Connected)
-                    {
-                        Log.Debug("Client disconnect.");
-                        Connecting = false;
-                    }
-                    else
-                    {
-                        if (m_ReceiveTask == null)
-                        {
-                            m_ReceiveTask = InnerReceiveData();
-                            m_ReceiveTask.Coroutine();
-                        }
-
-                        InnerBeat();
-                    }
-                }
+                m_IsConnected = true;
+                m_BeatCache = BitConverter.GetBytes(98259);
             }
 
             private async XTask InnerReceiveData()
             {
-                try
+                int byteCount = await m_Socket.ReceiveAsync(m_Cache);
+                if (byteCount == 4)
                 {
-                    int byteCount = await m_Client.ReceiveAsync(m_Cache);
+                    int code = BitConverter.ToInt32(m_Cache, 0);
+                    Log.Debug($"[{GetHashCode()}]beat return {code}");
+                    if (code == 98259)
+                        m_BeatFinish = true;
+                }
+                else
+                {
                     string content = Encoding.UTF8.GetString(m_Cache, 0, byteCount);
-                    Log.Debug(content);
-                    m_ReceiveTask = null;
+                    Log.Debug($"[{GetHashCode()}]receive data {content}");
+                    ArraySegment<byte> data = new ArraySegment<byte>(Encoding.UTF8.GetBytes("server return data"));
+                    await m_Socket.SendAsync(data);
                 }
-                catch (Exception ex)
-                {
-                    Log.Exception(ex);
-                    Connecting = false;
-                    m_ReceiveTask = null;
-                }
+                m_CheckTask = null;
             }
 
-            private void InnerBeat()
+            private async XTask InnerCheckBeat()
             {
                 try
                 {
-                    m_Client.Send(m_BeatData);
+                    m_BeatFinish = false;
+                    int byteCount = await m_Socket.SendAsync(m_BeatCache);
+                    await XTask.Delay(1);
+                    if (!m_BeatFinish)
+                        m_IsConnected = false;
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Log.Exception(ex);
-                    Connecting = false;
+                    m_IsConnected = false;
+                }
+                m_BeatTask = null;
+            }
+
+            public void Check()
+            {
+                if (!Connect)
+                    return;
+
+                if (m_CheckTask == null)
+                {
+                    m_CheckTask = InnerReceiveData();
+                    m_CheckTask.Coroutine();
+                }
+
+                if (m_BeatTask == null)
+                {
+                    m_BeatTask = InnerCheckBeat();
+                    m_BeatTask.Coroutine();
                 }
             }
 
-            public async void Start()
+            public void Dispose()
             {
-                m_Client = await m_Server.AcceptAsync();
-                Connecting = true;
+                Log.Debug($"[{GetHashCode()}]client disconnect {GetHashCode()}");
+                if (m_CheckTask != null)
+                {
+                    m_CheckTask.Cancel(false);
+                    m_CheckTask = null;
+                }
+                if (m_Socket != null)
+                {
+                    m_Socket.Close();
+                    m_Socket = null;
+                }
+            }
+        }
+
+        private class Connection
+        {
+            private Socket m_Server;
+            private List<Client> m_Clients;
+            private XTask<Client> m_CheckTask;
+
+            public Connection(Socket server)
+            {
+                m_Clients = new List<Client>();
+                m_Server = server;
+            }
+
+            public void Update()
+            {
+                InnerCheckClient();
+                for (int i = m_Clients.Count - 1; i >= 0; i--)
+                {
+                    Client client = m_Clients[i];
+                    //Log.Debug($"update {client.GetHashCode()} {client.Connect}");
+                    if (!client.Connect)
+                    {
+                        client.Dispose();
+                        m_Clients.RemoveAt(i);
+                    }
+                    else
+                    {
+                        client.Check();
+                    }
+                }
+            }
+
+            private void InnerCheckClient()
+            {
+                if (m_CheckTask == null)
+                {
+                    m_CheckTask = Start();
+                    m_CheckTask.Coroutine();
+                }
+            }
+
+            public async XTask<Client> Start()
+            {
+                Log.Debug("start accept");
+                Socket socket = await m_Server.AcceptAsync();
+                m_CheckTask = null;
+                Log.Debug("accept client");
+                Client client = new Client(socket);
+                m_Clients.Add(client);
+                return client;
             }
         }
     }
