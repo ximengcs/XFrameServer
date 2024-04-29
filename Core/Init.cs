@@ -6,6 +6,7 @@ using XFrameServer.Core.Procedures;
 using XFrameServer.Core.Logs;
 using XFrameServer.Core.Network;
 using XFrame.Modules.Archives;
+using XFrame.Modules.Threads;
 
 namespace XFrameServer.Core
 {
@@ -27,6 +28,7 @@ namespace XFrameServer.Core
 
         private static void Initialize()
         {
+            AppDomain.CurrentDomain.UnhandledException += InnerExpceptionHandler;
             XTaskHelper.ExceptionHandler += Log.Exception;
             InnerConfigType();
             XConfig.Entrance = typeof(MainProcedure).FullName;
@@ -38,8 +40,15 @@ namespace XFrameServer.Core
             Entry.Init();
         }
 
+        private static void InnerExpceptionHandler(object sender, UnhandledExceptionEventArgs e)
+        {
+            Log.Exception((Exception)e.ExceptionObject);
+        }
+
         private static void Start()
         {
+            Log.ConsumeWaitQueue();
+            Log.ToQueue = false;
             Entry.Start();
         }
 
