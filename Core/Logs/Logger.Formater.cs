@@ -1,4 +1,6 @@
 ﻿
+using XFrame.Modules.Diagnotics;
+
 namespace XFrameServer.Core.Logs
 {
     public partial class ConsoleLogger
@@ -10,7 +12,13 @@ namespace XFrameServer.Core.Logs
 
             public Formater()
             {
-                m_Colors = new Dictionary<string, ConsoleColor>();
+                m_Colors = new Dictionary<string, ConsoleColor>()
+                {
+                    { Log.XFrame, ConsoleColor.Magenta },
+                    { Log.Procedure, ConsoleColor.Yellow },
+                    { Log.Condition, ConsoleColor.Blue },
+                    { Log.CSV, ConsoleColor.DarkCyan }
+                };
             }
 
             public void Register(string name, ConsoleColor color)
@@ -24,6 +32,10 @@ namespace XFrameServer.Core.Logs
                 if (m_Colors.TryGetValue(name, out ConsoleColor color))
                 {
                     Console.ForegroundColor = color;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
                 }
             }
 

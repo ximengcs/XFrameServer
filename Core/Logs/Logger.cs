@@ -17,15 +17,14 @@ namespace XFrameServer.Core.Logs
             lock (m_Formater)
             {
                 InnerFormat(out string head, out string result, content);
-
                 if (!string.IsNullOrEmpty(head))
                 {
                     m_Formater.Head();
-                    Console.Write(head);
+                    Console.Write($"[{head}]".PadRight(12, ' '));
                     m_Formater.End();
                 }
 
-                m_Formater.Begin(result);
+                m_Formater.Begin(head);
                 Console.WriteLine(result);
                 m_Formater.End();
             }
@@ -78,7 +77,7 @@ namespace XFrameServer.Core.Logs
         {
             if (content.Length > 1)
             {
-                head = $"[{content[0]}]".PadRight(10, ' ');
+                head = $"{content[0]}";
                 if (content.Length > 2)
                 {
                     object[] contentList = new object[content.Length - 2];
