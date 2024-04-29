@@ -1,7 +1,6 @@
 ﻿using System.Net;
-using System.Net.Sockets;
 using XFrame.Core;
-using XFrame.Modules.Diagnotics;
+using System.Net.Sockets;
 
 namespace XFrameServer.Core.Network
 {

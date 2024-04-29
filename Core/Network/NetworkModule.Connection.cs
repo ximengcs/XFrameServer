@@ -16,6 +16,8 @@ namespace XFrameServer.Core.Network
             private byte[] m_Cache;
             private byte[] m_BeatData;
 
+            private XTask m_ReceiveTask;
+
             public bool Connecting { get; private set; }
 
             public Connection(Socket server)
@@ -30,8 +32,21 @@ namespace XFrameServer.Core.Network
             {
                 if (Connecting)
                 {
-                    InnerReceiveData().Coroutine();
-                    InnerBeat();
+                    if (!m_Client.Connected)
+                    {
+                        Log.Debug("Client disconnect.");
+                        Connecting = false;
+                    }
+                    else
+                    {
+                        if (m_ReceiveTask == null)
+                        {
+                            m_ReceiveTask = InnerReceiveData();
+                            m_ReceiveTask.Coroutine();
+                        }
+
+                        InnerBeat();
+                    }
                 }
             }
 
@@ -42,14 +57,13 @@ namespace XFrameServer.Core.Network
                     int byteCount = await m_Client.ReceiveAsync(m_Cache);
                     string content = Encoding.UTF8.GetString(m_Cache, 0, byteCount);
                     Log.Debug(content);
+                    m_ReceiveTask = null;
                 }
                 catch (Exception ex)
                 {
                     Log.Exception(ex);
-                }
-                finally
-                {
                     Connecting = false;
+                    m_ReceiveTask = null;
                 }
             }
 
@@ -62,9 +76,6 @@ namespace XFrameServer.Core.Network
                 catch (Exception ex)
                 {
                     Log.Exception(ex);
-                }
-                finally
-                {
                     Connecting = false;
                 }
             }

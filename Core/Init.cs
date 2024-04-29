@@ -6,7 +6,7 @@ using XFrameServer.Core.Procedures;
 using XFrameServer.Core.Logs;
 using XFrameServer.Core.Network;
 using XFrame.Modules.Archives;
-using XFrame.Modules.Threads;
+using System.Diagnostics;
 
 namespace XFrameServer.Core
 {
@@ -18,10 +18,15 @@ namespace XFrameServer.Core
         {
             Initialize();
             Start();
+            Stopwatch sw = new Stopwatch();
+            float time = 0;
             while (!Quit)
             {
-                Update();
+                sw.Restart();
+                Update(time / 1000);
                 Thread.Sleep(1);
+                sw.Stop();
+                time = sw.ElapsedMilliseconds;
             }
             Destroy();
         }
@@ -32,8 +37,8 @@ namespace XFrameServer.Core
             XTaskHelper.ExceptionHandler += Log.Exception;
             InnerConfigType();
             XConfig.Entrance = typeof(MainProcedure).FullName;
-            XConfig.DefaultLogger = typeof(Logger).FullName;
-            XConfig.ArchivePath = "./Data/";
+            XConfig.DefaultLogger = typeof(ConsoleLogger).FullName;
+            XConfig.ArchivePath = "Data";
             XConfig.DefaultDownloadHelper = typeof(DownloadHelper).FullName;
             XConfig.TypeChecker = new TypeChecker();
 
@@ -52,9 +57,9 @@ namespace XFrameServer.Core
             Entry.Start();
         }
 
-        private static void Update()
+        private static void Update(float time)
         {
-            Entry.Trigger<IUpdater>(1f);
+            Entry.Trigger<IUpdater>(time);
             Entry.Trigger<ISaveable>();
         }
 
@@ -81,6 +86,5 @@ namespace XFrameServer.Core
             TypeChecker.ExcludeNameSpace("CsvHelper.TypeConversion");
             TypeChecker.ExcludeNameSpace("RailwaySharp.ErrorHandling");
         }
-
     }
 }
