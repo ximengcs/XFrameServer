@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
@@ -10,10 +10,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="XFrame\**" />
+    <EmbeddedResource Remove="XFrame\**" />
+    <None Remove="XFrame\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="XFrame\XFramePlugins\XFramePlugins.csproj" />
     <ProjectReference Include="XFrame\XFrame\XFrame.csproj" />
   </ItemGroup>
 
