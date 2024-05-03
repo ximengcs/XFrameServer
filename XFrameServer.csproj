@@ -10,18 +10,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="XFrameShare\**" />
     <Compile Remove="XFrame\**" />
+    <EmbeddedResource Remove="XFrameShare\**" />
     <EmbeddedResource Remove="XFrame\**" />
+    <None Remove="XFrameShare\**" />
     <None Remove="XFrame\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.26.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\XFrameShare\XFrameShare.csproj" />
     <ProjectReference Include="XFrame\XFramePlugins\XFramePlugins.csproj" />
     <ProjectReference Include="XFrame\XFrame\XFrame.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Core\Entities\" />
   </ItemGroup>
 
 </Project>

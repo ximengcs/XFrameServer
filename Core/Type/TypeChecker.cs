@@ -9,6 +9,7 @@ namespace XFrameServer.Core
 
         public bool CheckType(Type type)
         {
+            //Console.WriteLine("check " + type.FullName);
             if (s_ExcludeNameSpaceList.Count > 0)
             {
                 if (s_ExcludeNameSpaceList.Contains(type.Namespace))

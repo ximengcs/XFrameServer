@@ -4,9 +4,9 @@ using XFrame.Modules.Diagnotics;
 using XFrame.Tasks;
 using XFrameServer.Core.Procedures;
 using XFrameServer.Core.Logs;
-using XFrameServer.Core.Network;
 using XFrame.Modules.Archives;
 using System.Diagnostics;
+using XFrameServer.Core.Download;
 
 namespace XFrameServer.Core
 {
@@ -16,6 +16,7 @@ namespace XFrameServer.Core
 
         public static void Main(string[] args)
         {
+            DllPerchClass();
             Initialize();
             Start();
             Stopwatch sw = new Stopwatch();
@@ -29,6 +30,11 @@ namespace XFrameServer.Core
                 time = sw.ElapsedMilliseconds;
             }
             Destroy();
+        }
+
+        private static void DllPerchClass()
+        {
+            new XFrameSharePerch();
         }
 
         private static void Initialize()
@@ -71,6 +77,7 @@ namespace XFrameServer.Core
         private static void InnerConfigType()
         {
             TypeChecker.IncludeModule("XFrameServer");
+            TypeChecker.IncludeModule("XFrameShare");
             TypeChecker.IncludeModule("UnityXFrame");
             TypeChecker.IncludeModule("UnityXFrame.Lib");
             TypeChecker.ExcludeNameSpace("CommandLine");

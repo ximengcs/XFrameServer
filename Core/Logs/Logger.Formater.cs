@@ -1,5 +1,6 @@
 ﻿
 using XFrame.Modules.Diagnotics;
+using XFrameShare.Core.Network;
 
 namespace XFrameServer.Core.Logs
 {
@@ -11,11 +12,13 @@ namespace XFrameServer.Core.Logs
             private Dictionary<string, ConsoleColor> m_Colors = new Dictionary<string, ConsoleColor>()
                 {
                     { Log.XFrame, ConsoleColor.Magenta },
-                    { Log.Procedure, ConsoleColor.Yellow },
+                    { Log.Procedure, ConsoleColor.DarkYellow },
                     { Log.Condition, ConsoleColor.Blue },
-                    { Log.CSV, ConsoleColor.DarkCyan }
+                    { Log.CSV, ConsoleColor.DarkCyan },
+                    { NetMode.Client.ToString(), ConsoleColor.Blue },
+                    { NetMode.Server.ToString(), ConsoleColor.Yellow },
+                    { NetConst.Net, ConsoleColor.Blue }
                 };
-
 
             public void Register(string name, ConsoleColor color)
             {
