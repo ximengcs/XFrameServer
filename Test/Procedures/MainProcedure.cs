@@ -11,6 +11,7 @@ using XFrame.Modules.Procedure;
 using XFrame.Modules.Reflection;
 using XFrame.Tasks;
 using XFrameShare.Core.Network;
+using XFrameShare.Test;
 
 namespace XFrameServer.Core.Procedures
 {
@@ -21,8 +22,9 @@ namespace XFrameServer.Core.Procedures
             base.OnEnter();
 
             Entry.GetModule<IEntityModule>().RegisterEntity<XRoot>();
-            IEntity serverRoot = Entry.GetModule<IEntityModule>().Create<XRoot>();
+            XRoot serverRoot = Entry.GetModule<IEntityModule>().Create<XRoot>();
             Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);
+            serverRoot.AddCom<World>();
         }
     }
 }
