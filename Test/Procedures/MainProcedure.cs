@@ -21,7 +21,6 @@ namespace XFrameServer.Core.Procedures
         {
             base.OnEnter();
 
-            Entry.GetModule<IEntityModule>().RegisterEntity<XRoot>();
             XRoot serverRoot = Entry.GetModule<IEntityModule>().Create<XRoot>();
             Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);
             serverRoot.AddCom<World>();
