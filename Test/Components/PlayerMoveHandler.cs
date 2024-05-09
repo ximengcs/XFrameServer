@@ -15,7 +15,9 @@ namespace XFrameServer.Test.Components
     {
         private Player m_Player;
 
-        public Type Type => typeof(TransformRequestMessage);
+        Type IMessageHandler.Type => typeof(TransformRequestMessage);
+
+        Type IFactoryMessage.Type => typeof(TransformExcuteMessage);
 
         public IMessage Message => new TransformExcuteMessage()
         {

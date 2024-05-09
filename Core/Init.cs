@@ -7,6 +7,7 @@ using XFrameServer.Core.Logs;
 using XFrame.Modules.Archives;
 using System.Diagnostics;
 using XFrameServer.Core.Download;
+using XFrameShare.Network;
 
 namespace XFrameServer.Core
 {
@@ -47,6 +48,7 @@ namespace XFrameServer.Core
             XConfig.ArchivePath = "Data";
             XConfig.DefaultDownloadHelper = typeof(DownloadHelper).FullName;
             XConfig.TypeChecker = new TypeChecker();
+            XConfig.DefaultIDHelper = typeof(NetEntityIDHelper).FullName;
 
             Entry.Init();
         }

@@ -7,13 +7,15 @@ using XFrameShare.Network;
 namespace XFrameServer.Test
 {
     [NetEntityComponent(typeof(Player))]
-    public class PlayerComponent : PoolObjectBase, INetEntityComponent
+    public class PlayerComponent : Entity, INetEntityComponent
     {
         private Player m_Player;
 
-        public void OnInit(IEntity entity)
+        protected override void OnInit()
         {
-            m_Player = entity as Player;
+            base.OnInit();
+            m_Player = Parent as Player;
+            m_Player.AddCom<SyncDataMessageHandler>();
             m_Player.AddCom<PlayerMoveHandler>();
         }
     }
