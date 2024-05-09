@@ -10,6 +10,7 @@ namespace XFrameServer.Core.Logs
         public ConsoleLogger()
         {
             m_Formater = new Formater();
+            Console.CursorVisible = false;
         }
 
         public void Debug(params object[] content)

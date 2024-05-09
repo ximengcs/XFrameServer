@@ -10,7 +10,7 @@ using XFrame.Modules.ID;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Reflection;
 using XFrame.Tasks;
-using XFrameShare.Core.Network;
+using XFrameShare.Network;
 using XFrameShare.Test;
 
 namespace XFrameServer.Core.Procedures

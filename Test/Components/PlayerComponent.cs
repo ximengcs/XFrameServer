@@ -2,7 +2,6 @@
 using XFrame.Modules.Entities;
 using XFrame.Modules.Pools;
 using XFrameServer.Test.Components;
-using XFrameShare.Core.Network;
 using XFrameShare.Network;
 
 namespace XFrameServer.Test

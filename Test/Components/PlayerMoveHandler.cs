@@ -7,9 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
-using XFrameShare.Core.Network;
 using XFrameShare.Network;
-using XFrameShare.Network.Extension;
 
 namespace XFrameServer.Test.Components
 {

@@ -1,6 +1,6 @@
 ﻿
 using XFrame.Modules.Diagnotics;
-using XFrameShare.Core.Network;
+using XFrameShare.Network;
 
 namespace XFrameServer.Core.Logs
 {
