@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
@@ -30,6 +30,10 @@
     <ProjectReference Include="..\XFrameShare\XFrameShare.csproj" />
     <ProjectReference Include="XFrame\XFramePlugins\XFramePlugins.csproj" />
     <ProjectReference Include="XFrame\XFrame\XFrame.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Test\Entities\" />
   </ItemGroup>
 
 </Project>
