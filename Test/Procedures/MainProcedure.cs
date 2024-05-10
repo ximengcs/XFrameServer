@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.Reflection;
 using System.Diagnostics;
+using System.Net;
 using System.Reflection;
 using System.Runtime.Loader;
 using XFrame.Core;
@@ -23,7 +24,13 @@ namespace XFrameServer.Core.Procedures
             base.OnEnter();
 
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
-            Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);
+            if (string.IsNullOrEmpty(Init.Options.Host))
+                Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);
+            else
+            {
+                if (IPAddress.TryParse(Init.Options.Host, out IPAddress ipAddress))
+                    Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, ipAddress, 9999);
+            }
         }
     }
 }

@@ -6,9 +6,10 @@ using XFrameShare.Network;
 
 namespace XFrameServer.Test.Components
 {
-    public class PlayerMoveHandler : Entity, IMessageHandler, IFactoryMessage
+    public class ClientMoveHandler : Entity, IMessageHandler, IFactoryMessage
     {
         private Client m_Client;
+        private ClientPropertyComponent m_Prop;
 
         Type IMessageHandler.Type => typeof(TransformRequestMessage);
 
@@ -16,22 +17,23 @@ namespace XFrameServer.Test.Components
 
         public IMessage Message => new TransformExcuteMessage()
         {
-            X = m_Client.Pos.X,
-            Y = m_Client.Pos.Y,
-            Z = m_Client.Pos.Z,
+            X = m_Prop.Pos.X,
+            Y = m_Prop.Pos.Y,
+            Z = m_Prop.Pos.Z,
         };
 
         protected override void OnInit()
         {
             base.OnInit();
             m_Client = Parent as Client;
+            m_Prop = m_Client.GetCom<ClientPropertyComponent>();
         }
 
         public void OnReceive(TransitionData data)
         {
             Log.Debug(NetConst.Net, $"transform request {data.Message}");
             TransformRequestMessage message = data.Message as TransformRequestMessage;
-            m_Client.Pos = new Vector3(message.X, message.Y, message.Z) * 0.5f;
+            m_Prop.Pos += new Vector3(message.X, message.Y, message.Z) * 0.5f;
             m_Client.Send(this);
         }
     }
