@@ -1,4 +1,5 @@
 ﻿using Google.Protobuf.Reflection;
+using NLog;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Loader;

@@ -8,6 +8,7 @@ using XFrame.Modules.Archives;
 using System.Diagnostics;
 using XFrameServer.Core.Download;
 using XFrameShare.Network;
+using NLog;
 
 namespace XFrameServer.Core
 {
@@ -38,13 +39,26 @@ namespace XFrameServer.Core
             new XFrameSharePerch();
         }
 
+        private static void InitializeNLog()
+        {
+            LogManager.Setup().LoadConfiguration((builder) =>
+            {
+                string time = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
+                builder.ForLogger().FilterLevel(NLog.LogLevel.Debug).WriteToFile($"logs/nlog-debug-{time}.txt");
+                builder.ForLogger().FilterLevel(NLog.LogLevel.Warn).WriteToFile($"logs/nlog-warning-{time}.txt");
+                builder.ForLogger().FilterLevel(NLog.LogLevel.Error).WriteToFile($"logs/nlog-error-{time}.txt");
+                builder.ForLogger().FilterLevel(NLog.LogLevel.Fatal).WriteToFile($"logs/nlog-fatal-{time}.txt");
+            });
+        }
+
         private static void Initialize()
         {
             AppDomain.CurrentDomain.UnhandledException += InnerExpceptionHandler;
             XTaskHelper.ExceptionHandler += Log.Exception;
             InnerConfigType();
+            InitializeNLog();
             XConfig.Entrance = typeof(MainProcedure).FullName;
-            XConfig.DefaultLogger = typeof(ConsoleLogger).FullName;
+            XConfig.DefaultLogger = typeof(NLogLogger).FullName;
             XConfig.ArchivePath = "Data";
             XConfig.DefaultDownloadHelper = typeof(DownloadHelper).FullName;
             XConfig.TypeChecker = new TypeChecker();
