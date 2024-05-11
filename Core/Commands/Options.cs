@@ -1,6 +1,4 @@
-﻿
-using CommandLine;
-using System.Net;
+﻿using CommandLine;
 
 namespace XFrameServer.Core.Commands
 {
@@ -8,5 +6,14 @@ namespace XFrameServer.Core.Commands
     {
         [Option("ip", Required = false, HelpText = "host address.")]
         public string Host { get; set; }
+
+        [Option("log", Required = false, HelpText = "set logger.")]
+        public LogType Logger { get; set; } = LogType.console;
+    }
+
+    public enum LogType
+    {
+        console,
+        nlog
     }
 }
