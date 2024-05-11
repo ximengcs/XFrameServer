@@ -8,7 +8,6 @@ using XFrame.Modules.Archives;
 using System.Diagnostics;
 using XFrameServer.Core.Download;
 using XFrameShare.Network;
-using NLog;
 using CommandLine;
 using XFrameServer.Core.Commands;
 
@@ -58,14 +57,6 @@ namespace XFrameServer.Core
                     break;
 
                 case LogType.nlog:
-                    LogManager.Setup().LoadConfiguration((builder) =>
-                    {
-                        string time = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-                        builder.ForLogger().FilterLevel(NLog.LogLevel.Debug).WriteToFile($"logs/nlog-debug-{time}.txt");
-                        builder.ForLogger().FilterLevel(NLog.LogLevel.Warn).WriteToFile($"logs/nlog-warning-{time}.txt");
-                        builder.ForLogger().FilterLevel(NLog.LogLevel.Error).WriteToFile($"logs/nlog-error-{time}.txt");
-                        builder.ForLogger().FilterLevel(NLog.LogLevel.Fatal).WriteToFile($"logs/nlog-fatal-{time}.txt");
-                    });
                     XConfig.DefaultLogger = typeof(NLogLogger).FullName;
                     break;
             }

@@ -6,14 +6,14 @@ using XFrameShare.Network;
 
 namespace XFrameServer.Test.Components
 {
-    public class ClientMoveHandler : Entity, IMessageHandler, IFactoryMessage
+    public class ClientMoveComponent : Entity, IMessageConsumer, IMessageProducer
     {
         private Client m_Client;
         private ClientPropertyComponent m_Prop;
 
-        Type IMessageHandler.Type => typeof(TransformRequestMessage);
+        Type IMessageConsumer.Type => typeof(TransformRequestMessage);
 
-        Type IFactoryMessage.Type => typeof(TransformExcuteMessage);
+        Type IMessageProducer.Type => typeof(TransformExcuteMessage);
 
         public IMessage Message => new TransformExcuteMessage()
         {
@@ -22,11 +22,16 @@ namespace XFrameServer.Test.Components
             Z = m_Prop.Pos.Z,
         };
 
-        protected override void OnInit()
+        public void OnInit(IEntity entity)
         {
-            base.OnInit();
             m_Client = Parent as Client;
             m_Prop = m_Client.GetCom<ClientPropertyComponent>();
+        }
+
+        public void OnDestroy()
+        {
+            m_Client = null;
+            m_Prop = null;
         }
 
         public void OnReceive(TransitionData data)
