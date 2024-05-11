@@ -9,6 +9,8 @@ using System.Diagnostics;
 using XFrameServer.Core.Download;
 using XFrameShare.Network;
 using NLog;
+using CommandLine;
+using XFrameServer.Core.Commands;
 
 namespace XFrameServer.Core
 {
@@ -16,8 +18,16 @@ namespace XFrameServer.Core
     {
         public static bool Quit { get; set; }
 
+        public static Options Options { get; private set; }
+
         public static void Main(string[] args)
         {
+            Parser.Default.ParseArguments<Options>(args).WithParsed(Run);
+        }
+
+        private static void Run(Options option)
+        {
+            Options = option;
             DllPerchClass();
             Initialize();
             Start();

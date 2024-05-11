@@ -7,7 +7,7 @@ using XFrameShare.Network;
 namespace XFrameServer.Test
 {
     [NetEntityComponent(typeof(Client))]
-    public class PlayerComponent : Entity, INetEntityComponent
+    public class ClientComponent : Entity, INetEntityComponent
     {
         private Client m_Player;
 
@@ -15,8 +15,9 @@ namespace XFrameServer.Test
         {
             base.OnInit();
             m_Player = Parent as Client;
+            m_Player.AddCom<ClientPropertyComponent>();
+            m_Player.AddCom<ClientMoveHandler>();
             m_Player.AddCom<SyncDataMessageHandler>();
-            m_Player.AddCom<PlayerMoveHandler>();
         }
     }
 }

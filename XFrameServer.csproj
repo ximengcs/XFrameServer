@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
@@ -11,12 +11,15 @@
 
   <ItemGroup>
     <Compile Remove="Core\Entities\**" />
+    <Compile Remove="Test\Entities\**" />
     <Compile Remove="XFrameShare\**" />
     <Compile Remove="XFrame\**" />
     <EmbeddedResource Remove="Core\Entities\**" />
+    <EmbeddedResource Remove="Test\Entities\**" />
     <EmbeddedResource Remove="XFrameShare\**" />
     <EmbeddedResource Remove="XFrame\**" />
     <None Remove="Core\Entities\**" />
+    <None Remove="Test\Entities\**" />
     <None Remove="XFrameShare\**" />
     <None Remove="XFrame\**" />
   </ItemGroup>
@@ -30,10 +33,6 @@
     <ProjectReference Include="..\XFrameShare\XFrameShare.csproj" />
     <ProjectReference Include="XFrame\XFramePlugins\XFramePlugins.csproj" />
     <ProjectReference Include="XFrame\XFrame\XFrame.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Test\Entities\" />
   </ItemGroup>
 
 </Project>
