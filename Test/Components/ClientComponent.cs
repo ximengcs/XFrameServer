@@ -16,7 +16,8 @@ namespace XFrameServer.Test
             base.OnInit();
             m_Player = Parent as Client;
             m_Player.AddCom<ClientPropertyComponent>();
-            m_Player.AddCom<ClientMoveComponent>();
+            ClientMoveComponent clientMove = m_Player.AddHandler<ClientMoveComponent>();
+            m_Player.AddFactory(clientMove);
             m_Player.AddHandler<SyncDataConsumer>();
         }
     }

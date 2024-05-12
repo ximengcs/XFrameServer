@@ -6,7 +6,7 @@ using XFrameShare.Network;
 
 namespace XFrameServer.Test.Components
 {
-    public class ClientMoveComponent : Entity, IMessageConsumer, IMessageProducer
+    public class ClientMoveComponent : IMessageConsumer, IMessageProducer
     {
         private Client m_Client;
         private ClientPropertyComponent m_Prop;
@@ -24,7 +24,7 @@ namespace XFrameServer.Test.Components
 
         public void OnInit(IEntity entity)
         {
-            m_Client = Parent as Client;
+            m_Client = entity as Client;
             m_Prop = m_Client.GetCom<ClientPropertyComponent>();
         }
 
