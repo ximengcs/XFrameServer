@@ -11,6 +11,7 @@ using XFrame.Modules.Entities;
 using XFrame.Modules.ID;
 using XFrame.Modules.Procedure;
 using XFrame.Modules.Reflection;
+using XFrame.Modules.Threads;
 using XFrame.Tasks;
 using XFrameServer.Test.Entities;
 using XFrameShare.Network;
@@ -24,6 +25,7 @@ namespace XFrameServer.Core.Procedures
         {
             base.OnEnter();
 
+            Entry.AddModule<MainSynchronizationContext>();
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
                 Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);

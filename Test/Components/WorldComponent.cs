@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using XFrame.Modules.Diagnotics;
-using XFrame.Modules.Entities;
+﻿using XFrame.Modules.Entities;
 using XFrameShare.Network;
 using XFrameShare.Test;
 
