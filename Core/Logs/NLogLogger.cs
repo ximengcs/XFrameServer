@@ -1,5 +1,7 @@
 ﻿
 using NLog;
+using NLog.Layouts;
+using NLog.Targets;
 using System.Text;
 
 namespace XFrameServer.Core.Logs
@@ -13,10 +15,11 @@ namespace XFrameServer.Core.Logs
             LogManager.Setup().LoadConfiguration((builder) =>
             {
                 string time = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss");
-                builder.ForLogger().FilterLevel(LogLevel.Debug).WriteToFile($"logs/nlog-debug-{time}.txt");
-                builder.ForLogger().FilterLevel(LogLevel.Warn).WriteToFile($"logs/nlog-warning-{time}.txt");
-                builder.ForLogger().FilterLevel(LogLevel.Error).WriteToFile($"logs/nlog-error-{time}.txt");
-                builder.ForLogger().FilterLevel(LogLevel.Fatal).WriteToFile($"logs/nlog-fatal-{time}.txt");
+                Layout layout = "${longdate}|${level:uppercase=true}|${message:withexception=true}";
+                builder.ForLogger().FilterLevel(LogLevel.Debug).WriteToFile($"logs/nlog-debug-{time}.log", layout);
+                builder.ForLogger().FilterLevel(LogLevel.Warn).WriteToFile($"logs/nlog-warning-{time}.log", layout);
+                builder.ForLogger().FilterLevel(LogLevel.Error).WriteToFile($"logs/nlog-error-{time}.log", layout);
+                builder.ForLogger().FilterLevel(LogLevel.Fatal).WriteToFile($"logs/nlog-fatal-{time}.log", layout);
             });
             m_Logger = LogManager.GetCurrentClassLogger();
         }

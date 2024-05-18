@@ -38,7 +38,7 @@ namespace XFrameServer.Test.Components
         {
             Log.Debug(NetConst.Net, $"transform request {data.Message}");
             TransformRequestMessage message = data.Message as TransformRequestMessage;
-            m_Prop.Pos += new Vector3(message.X, message.Y, message.Z) * 0.5f;
+            m_Prop.Pos += new Vector3(message.X, message.Y, message.Z);
             m_Client.Send(this);
         }
     }
