@@ -35,7 +35,7 @@ namespace XFrameServer.Core.Procedures
                     Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, ipAddress, 9999, XProtoType.Tcp);
             }
 
-            XTask.Beat(60 * 60, () =>
+            XTask.Beat(60, () =>
             {
                 Log.Debug("Test", "Beat");
                 return false;
