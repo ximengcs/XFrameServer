@@ -25,7 +25,7 @@ namespace XFrameServer.Core.Procedures
         {
             base.OnEnter();
 
-            Entry.AddModule<MainSynchronizationContext>();
+            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
                 Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999, XProtoType.Tcp);
