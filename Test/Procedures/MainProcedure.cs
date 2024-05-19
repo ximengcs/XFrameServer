@@ -28,12 +28,18 @@ namespace XFrameServer.Core.Procedures
             Entry.AddModule<MainSynchronizationContext>();
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
-                Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999);
+                Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999, XProtoType.Tcp);
             else
             {
                 if (IPAddress.TryParse(Init.Options.Host, out IPAddress ipAddress))
-                    Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, ipAddress, 9999);
+                    Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, ipAddress, 9999, XProtoType.Tcp);
             }
+
+            XTask.Beat(60 * 60, () =>
+            {
+                Log.Debug("Test", "Beat");
+                return false;
+            }).Coroutine();
         }
     }
 }
