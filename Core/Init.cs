@@ -11,6 +11,8 @@ using XFrameShare.Network;
 using CommandLine;
 using XFrameServer.Core.Commands;
 using XFrame.Modules.Threads;
+using XFrame.Modules.Times;
+using XFrame.Modules.Tasks;
 
 namespace XFrameServer.Core
 {
@@ -31,17 +33,25 @@ namespace XFrameServer.Core
             DllPerchClass();
             Initialize();
             Start();
-            Stopwatch sw = new Stopwatch();
-            long time = 0;
+            long time = DateTime.Now.Ticks;
+            long storeTime = 0;
+            double second = 0;
+
             while (!Quit)
             {
-                sw.Restart();
-                double escape = new TimeSpan(time).TotalSeconds;
-                Update(escape);
-                AfterUpdate(escape);
+                Update(second);
+                AfterUpdate(second);
                 Thread.Sleep(0);
-                sw.Stop();
-                time = sw.ElapsedTicks;
+                long now = DateTime.Now.Ticks;
+                //Log.Debug($"TIME2 {now} {time} {now - time} {storeTime}");
+                time = now - time + storeTime;
+                //Log.Debug($"TIME3 {time}");
+                long escapeTime = time / TimeSpan.TicksPerMillisecond;
+                second = escapeTime / 1000d;
+                storeTime = time % TimeSpan.TicksPerMillisecond;
+                //Log.Debug($"TIME {second} {escapeTime} {time} {storeTime} {Entry.GetModule<ITimeModule>().Time}");
+                time = now;
+
             }
             Destroy();
         }
@@ -78,6 +88,7 @@ namespace XFrameServer.Core
             XConfig.DefaultIDHelper = typeof(NetEntityIDHelper).FullName;
 
             Entry.Init();
+            Entry.GetModule<ITaskModule>().TaskTimeout = -1;
             Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
         }
 
