@@ -10,6 +10,7 @@ using XFrameServer.Core.Download;
 using XFrameShare.Network;
 using CommandLine;
 using XFrameServer.Core.Commands;
+using XFrame.Modules.Threads;
 
 namespace XFrameServer.Core
 {
@@ -31,14 +32,16 @@ namespace XFrameServer.Core
             Initialize();
             Start();
             Stopwatch sw = new Stopwatch();
-            float time = 0;
+            long time = 0;
             while (!Quit)
             {
                 sw.Restart();
-                Update(time / 1000);
-                Thread.Sleep(1);
+                double escape = new TimeSpan(time).TotalSeconds;
+                Update(escape);
+                AfterUpdate(escape);
+                Thread.Sleep(0);
                 sw.Stop();
-                time = sw.ElapsedMilliseconds;
+                time = sw.ElapsedTicks;
             }
             Destroy();
         }
@@ -75,6 +78,7 @@ namespace XFrameServer.Core
             XConfig.DefaultIDHelper = typeof(NetEntityIDHelper).FullName;
 
             Entry.Init();
+            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
         }
 
         private static void InnerExpceptionHandler(object sender, UnhandledExceptionEventArgs e)
@@ -89,10 +93,15 @@ namespace XFrameServer.Core
             Entry.Start();
         }
 
-        private static void Update(float time)
+        private static void Update(double time)
         {
             Entry.Trigger<IUpdater>(time);
             Entry.Trigger<ISaveable>();
+        }
+
+        private static void AfterUpdate(double time)
+        {
+            Entry.Trigger<IFinishUpdater>(time);
         }
 
         private static void Destroy()

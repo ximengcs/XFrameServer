@@ -1,8 +1,7 @@
 {
   "profiles": {
     "XFrameServer": {
-      "commandName": "Project",
-      "commandLineArgs": "--ip=192.168.0.102"
+      "commandName": "Project"
     },
     "Docker": {
       "commandName": "Docker"

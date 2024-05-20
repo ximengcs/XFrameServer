@@ -24,8 +24,6 @@ namespace XFrameServer.Core.Procedures
         protected override void OnEnter()
         {
             base.OnEnter();
-
-            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
                 Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999, XProtoType.Tcp);
@@ -35,11 +33,11 @@ namespace XFrameServer.Core.Procedures
                     Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, ipAddress, 9999, XProtoType.Tcp);
             }
 
-            XTask.Beat(60, () =>
-            {
-                Log.Debug("Test", "Beat");
-                return false;
-            }).Coroutine();
+            //XTask.Beat(1, () =>
+            //{
+            //    Log.Debug("Test", "Beat");
+            //    return false;
+            //}).Coroutine();
         }
     }
 }
