@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Runtime.Loader;
 using XFrame.Core;
+using XFrame.Core.Threads;
 using XFrame.Modules.Config;
 using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
@@ -24,6 +25,13 @@ namespace XFrameServer.Core.Procedures
         protected override void OnEnter()
         {
             base.OnEnter();
+
+            //Fiber netFiber = Entry.GetModule<FiberModule>().GetOrNew(1);
+            //netFiber.StartThread();
+            //Entry.GetModule<NetworkModule>().SetFiber(netFiber);
+
+            Entry.GetModule<NetworkModule>().SetFiber(Entry.GetModule<FiberModule>().MainFiber);
+
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
                 Entry.GetModule<NetworkModule>().Create(serverRoot, NetMode.Server, 9999, XProtoType.Tcp);

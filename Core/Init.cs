@@ -5,14 +5,11 @@ using XFrame.Tasks;
 using XFrameServer.Core.Procedures;
 using XFrameServer.Core.Logs;
 using XFrame.Modules.Archives;
-using System.Diagnostics;
 using XFrameServer.Core.Download;
 using XFrameShare.Network;
 using CommandLine;
 using XFrameServer.Core.Commands;
-using XFrame.Modules.Threads;
-using XFrame.Modules.Times;
-using XFrame.Modules.Tasks;
+using XFrame.Core.Threads;
 
 namespace XFrameServer.Core
 {
@@ -88,8 +85,7 @@ namespace XFrameServer.Core
             XConfig.DefaultIDHelper = typeof(NetEntityIDHelper).FullName;
 
             Entry.Init();
-            Entry.GetModule<ITaskModule>().TaskTimeout = -1;
-            Entry.AddModule<MainSynchronizationContext>().ExecTimeout = -1;
+            Entry.GetModule<FiberModule>().MainFiber.Use();
         }
 
         private static void InnerExpceptionHandler(object sender, UnhandledExceptionEventArgs e)
