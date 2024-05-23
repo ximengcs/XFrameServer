@@ -10,6 +10,7 @@ using XFrameShare.Network;
 using CommandLine;
 using XFrameServer.Core.Commands;
 using XFrame.Core.Threads;
+using XFrameServer.Core.Platform;
 
 namespace XFrameServer.Core
 {
@@ -38,7 +39,13 @@ namespace XFrameServer.Core
             {
                 Update(second);
                 AfterUpdate(second);
-                Thread.Sleep(0);
+#if WINDOWS
+                WindowsExtension.TimeBeginPeriod(1);
+#endif
+                Thread.Sleep(1);
+#if WINDOWS
+                WindowsExtension.TimeEndPeriod(1);
+#endif
                 long now = DateTime.Now.Ticks;
                 //Log.Debug($"TIME2 {now} {time} {now - time} {storeTime}");
                 time = now - time + storeTime;
@@ -46,9 +53,7 @@ namespace XFrameServer.Core
                 long escapeTime = time / TimeSpan.TicksPerMillisecond;
                 second = escapeTime / 1000d;
                 storeTime = time % TimeSpan.TicksPerMillisecond;
-                //Log.Debug($"TIME {second} {escapeTime} {time} {storeTime} {Entry.GetModule<ITimeModule>().Time}");
                 time = now;
-
             }
             Destroy();
         }
