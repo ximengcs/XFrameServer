@@ -35,17 +35,16 @@ namespace XFrameServer.Core
             long storeTime = 0;
             double second = 0;
 
+#if WINDOWS
+            FiberExtension.SleepBefore = WindowsExtension.TimeBeginPeriod;
+            FiberExtension.SleepAfter = WindowsExtension.TimeEndPeriod;
+#endif
+
             while (!Quit)
             {
                 Update(second);
                 AfterUpdate(second);
-#if WINDOWS
-                WindowsExtension.TimeBeginPeriod(1);
-#endif
-                Thread.Sleep(1);
-#if WINDOWS
-                WindowsExtension.TimeEndPeriod(1);
-#endif
+                FiberExtension.Sleep(1);
                 long now = DateTime.Now.Ticks;
                 //Log.Debug($"TIME2 {now} {time} {now - time} {storeTime}");
                 time = now - time + storeTime;

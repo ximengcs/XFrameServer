@@ -26,11 +26,9 @@ namespace XFrameServer.Core.Procedures
         {
             base.OnEnter();
 
-            //Fiber netFiber = Entry.GetModule<FiberModule>().GetOrNew(1);
-            //netFiber.StartThread();
-            //Entry.GetModule<NetworkModule>().SetFiber(netFiber);
-
-            Entry.GetModule<NetworkModule>().SetFiber(Entry.GetModule<FiberModule>().MainFiber);
+            Fiber netFiber = Entry.GetModule<FiberModule>().GetOrNew(1);
+            netFiber.StartThread(1);
+            Entry.GetModule<NetworkModule>().SetFiber(netFiber);
 
             Game serverRoot = Entry.GetModule<IEntityModule>().Create<Game>();
             if (string.IsNullOrEmpty(Init.Options.Host))
