@@ -30,6 +30,7 @@ public static partial class Global
     private static ICryptoModule m_Crypto;
     private static IDataModule m_Data;
     private static IDownloadModule m_Download;
+    private static SceneModule m_Scene;
     private static IEntityModule m_Entity;
     private static IEventModule m_Event;
     private static IFsmModule m_Fsm;
@@ -70,5 +71,6 @@ public static partial class Global
         m_Time = null;
         m_Fiber = null;
         m_Net = null;
+        m_Scene = null;
     }
 }

@@ -28,13 +28,13 @@ namespace XFrameServer.Core.Procedures
             base.OnEnter();
 
             GameConst.Initialize();
-            Game serverRoot = Global.Entity.Create<Game>();
+            IScene serverScene = Global.Scene.Create();
             if (string.IsNullOrEmpty(Init.Options.Host))
-                Global.Net.Create(serverRoot, NetMode.Server, 9999, XProtoType.Tcp);
+                Global.Net.Create(serverScene, NetMode.Server, 9999, XProtoType.Tcp);
             else
             {
                 if (IPAddress.TryParse(Init.Options.Host, out IPAddress ipAddress))
-                    Global.Net.Create(serverRoot, NetMode.Server, ipAddress, 9999, XProtoType.Tcp);
+                    Global.Net.Create(serverScene, NetMode.Server, ipAddress, 9999, XProtoType.Tcp);
             }
         }
     }
