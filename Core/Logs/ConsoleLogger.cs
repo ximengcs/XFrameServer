@@ -94,7 +94,7 @@ namespace XFrameServer.Core.Logs
             }
             else
             {
-                result = string.Concat($"[{Thread.CurrentThread.ManagedThreadId,5}]", content);
+                result = string.Concat($"[{Thread.CurrentThread.ManagedThreadId,5}]", content[0]);
                 head = null;
                 return true;
             }

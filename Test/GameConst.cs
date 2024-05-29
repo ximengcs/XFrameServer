@@ -5,6 +5,9 @@ namespace XFrameServer.Test
 {
     public static class GameConst
     {
+        private static int s_FIBER_ID = 1000;
+        public static int FIBER_ID => s_FIBER_ID++;
+
         private const int NET_FIBER = 1;
 
         private static Fiber s_NetFiber;

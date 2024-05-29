@@ -28,7 +28,16 @@ namespace XFrameServer.Core.Procedures
             base.OnEnter();
 
             GameConst.Initialize();
-            IScene serverScene = Global.Scene.Create();
+
+            Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
+            serverFiber.StartThread();
+            IScene serverScene = Global.Scene.Create(serverFiber);
+            serverScene.Fiber.Post(InnerCreateServer, serverScene);
+        }
+
+        private void InnerCreateServer(object state)
+        {
+            IScene serverScene = state as IScene;
             if (string.IsNullOrEmpty(Init.Options.Host))
                 Global.Net.Create(serverScene, NetMode.Server, 9999, XProtoType.Tcp);
             else
