@@ -54,6 +54,7 @@ namespace XFrameServer.Core.Logs
             if (content.Length > 1)
             {
                 StringBuilder sb = new StringBuilder();
+                sb.Append($"[{Thread.CurrentThread.ManagedThreadId,5}]");
                 sb.Append('[');
                 sb.Append(content[0]);
                 sb.Append(']');
@@ -63,7 +64,7 @@ namespace XFrameServer.Core.Logs
             }
             else
             {
-                return string.Concat(content);
+                return string.Concat($"[{Thread.CurrentThread.ManagedThreadId,5}]", content);
             }
         }
     }

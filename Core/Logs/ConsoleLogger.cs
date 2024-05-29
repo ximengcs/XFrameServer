@@ -84,21 +84,20 @@ namespace XFrameServer.Core.Logs
                     object[] contentList = new object[content.Length - 2];
                     for (int i = 0; i < contentList.Length; i++)
                         contentList[i] = content[i + 2];
-                    result = string.Format((string)content[1], contentList);
+                    result = string.Concat($"[{Thread.CurrentThread.ManagedThreadId, 5}]", string.Format((string)content[1], contentList));
                 }
                 else
                 {
-                    result = $"{content[1]}";
+                    result = $"[{Thread.CurrentThread.ManagedThreadId,5}]{content[1]}";
                 }
                 return true;
             }
             else
             {
-                result = string.Concat(content);
+                result = string.Concat($"[{Thread.CurrentThread.ManagedThreadId,5}]", content);
                 head = null;
                 return true;
             }
         }
-
     }
 }

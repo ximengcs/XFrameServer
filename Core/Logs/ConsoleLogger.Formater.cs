@@ -15,6 +15,7 @@ namespace XFrameServer.Core.Logs
                     { Log.Procedure, ConsoleColor.DarkYellow },
                     { Log.Condition, ConsoleColor.Blue },
                     { Log.CSV, ConsoleColor.DarkCyan },
+                    { Log.Fiber, ConsoleColor.Gray },
                     { NetMode.Client.ToString(), ConsoleColor.Blue },
                     { NetMode.Server.ToString(), ConsoleColor.Yellow },
                     { NetConst.Net, ConsoleColor.Blue }

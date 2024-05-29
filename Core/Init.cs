@@ -89,7 +89,7 @@ namespace XFrameServer.Core
             XConfig.DefaultIDHelper = typeof(NetEntityIDHelper).FullName;
 
             Entry.Init();
-            Entry.GetModule<FiberModule>().MainFiber.Use();
+            Global.Fiber.MainFiber.Use();
         }
 
         private static void InnerExpceptionHandler(object sender, UnhandledExceptionEventArgs e)
