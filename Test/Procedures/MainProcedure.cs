@@ -29,7 +29,8 @@ namespace XFrameServer.Core.Procedures
 
             GameConst.Initialize();
             InnerCreateServer();
-            //XTask.Delay(5).OnCompleted(InnerCreateClient).Coroutine();
+            XTask.Delay(5).OnCompleted(InnerCreateClient).Coroutine();
+            XTask.Delay(6).OnCompleted(InnerCreateClient).Coroutine();
         }
 
         #region Server
