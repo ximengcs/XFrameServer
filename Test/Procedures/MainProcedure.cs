@@ -1,23 +1,10 @@
-﻿using Google.Protobuf.Reflection;
-using NLog;
-using System.Diagnostics;
-using System.Net;
-using System.Reflection;
-using System.Runtime.Loader;
-using XFrame.Core;
+﻿using System.Net;
 using XFrame.Core.Threads;
-using XFrame.Modules.Config;
-using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
-using XFrame.Modules.ID;
 using XFrame.Modules.Procedure;
-using XFrame.Modules.Reflection;
-using XFrame.Modules.Threads;
 using XFrame.Tasks;
 using XFrameServer.Test;
-using XFrameServer.Test.Entities;
 using XFrameShare.Network;
-using XFrameShare.Test;
 
 namespace XFrameServer.Core.Procedures
 {
@@ -31,7 +18,7 @@ namespace XFrameServer.Core.Procedures
             InnerCreateServer();
             XTask.Delay(5).OnCompleted(() =>
             {
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 2; i++)
                 {
                     InnerCreateClient();
                 }
