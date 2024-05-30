@@ -29,15 +29,20 @@ namespace XFrameServer.Core.Procedures
 
             GameConst.Initialize();
             InnerCreateServer();
-            XTask.Delay(5).OnCompleted(InnerCreateClient).Coroutine();
-            XTask.Delay(6).OnCompleted(InnerCreateClient).Coroutine();
+            XTask.Delay(5).OnCompleted(() =>
+            {
+                for (int i = 0; i < 1; i++)
+                {
+                    InnerCreateClient();
+                }
+            }).Coroutine();
         }
 
         #region Server
         private void InnerCreateServer()
         {
             Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
-            serverFiber.StartThread();
+            serverFiber.StartThread(10);
             IScene serverScene = Global.Scene.Create(serverFiber);
             serverScene.Fiber.Post(InnerCreateServerScene, serverScene);
         }
@@ -59,7 +64,7 @@ namespace XFrameServer.Core.Procedures
         private void InnerCreateClient()
         {
             Fiber clientFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
-            clientFiber.StartThread();
+            clientFiber.StartThread(10);
             IScene clientScene = Global.Scene.Create(clientFiber);
             clientScene.Fiber.Post(InnerCreateClientScene, clientScene);
         }

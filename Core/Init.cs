@@ -44,7 +44,7 @@ namespace XFrameServer.Core
             {
                 Update(second);
                 AfterUpdate(second);
-                FiberExtension.Sleep(1);
+                FiberExtension.Sleep(10);
                 long now = DateTime.Now.Ticks;
                 //Log.Debug($"TIME2 {now} {time} {now - time} {storeTime}");
                 time = now - time + storeTime;
