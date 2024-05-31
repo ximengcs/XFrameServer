@@ -43,8 +43,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\XFrameShare\XFrameShare.csproj" />
-    <ProjectReference Include="XFrame\XFramePlugins\XFramePlugins.csproj" />
-    <ProjectReference Include="XFrame\XFrame\XFrame.csproj" />
   </ItemGroup>
 
 </Project>
