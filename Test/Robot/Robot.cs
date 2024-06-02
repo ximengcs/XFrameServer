@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Google.Protobuf.WellKnownTypes;
+using System.Numerics;
 using TestGame.Share.Clients;
 using TestGame.Share.Servers;
 using XFrame.Modules.Diagnotics;
@@ -27,14 +28,18 @@ namespace XFrameServer.Test.Robot
 
             if (m_Client.IsSelf())
             {
-                InnerMove();
+                XTask.Beat(1, () =>
+                {
+                    m_Movement.Move(new Vector3(InnerNext(), InnerNext(), 0));
+                    return false;
+                }).Coroutine();
             }
         }
 
         private float InnerNext()
         {
             Random rand = new Random(Guid.NewGuid().GetHashCode());
-            return (rand.Next() % 2 == 0 ? 1 : -1) * rand.NextSingle() % 10;
+            return (rand.Next() % 2 == 0 ? 1 : -1) * rand.NextSingle() * 10000 % 10;
         }
 
         private void InnerMove()

@@ -17,16 +17,19 @@ namespace XFrameServer.Core.Procedures
         protected override void OnEnter()
         {
             base.OnEnter();
-
             GameConst.Initialize();
             InnerCreateServer();
+            InnerTestClient(20);
+        }
 
-            XTask.Delay(5).OnCompleted(() =>
+        private void InnerTestClient(int count)
+        {
+            if (count <= 0)
+                return;
+            XTask.Delay(1).OnCompleted(() =>
             {
-                for (int i = 0; i < 10; i++)
-                {
-                    InnerCreateClient();
-                }
+                InnerCreateClient();
+                InnerTestClient(count - 1);
             }).Coroutine();
         }
 
