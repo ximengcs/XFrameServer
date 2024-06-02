@@ -20,17 +20,14 @@
   <ItemGroup>
     <Compile Remove="Core\Entities\**" />
     <Compile Remove="Test\Entities\**" />
-    <Compile Remove="Test\Robot\**" />
     <Compile Remove="XFrameShare\**" />
     <Compile Remove="XFrame\**" />
     <EmbeddedResource Remove="Core\Entities\**" />
     <EmbeddedResource Remove="Test\Entities\**" />
-    <EmbeddedResource Remove="Test\Robot\**" />
     <EmbeddedResource Remove="XFrameShare\**" />
     <EmbeddedResource Remove="XFrame\**" />
     <None Remove="Core\Entities\**" />
     <None Remove="Test\Entities\**" />
-    <None Remove="Test\Robot\**" />
     <None Remove="XFrameShare\**" />
     <None Remove="XFrame\**" />
   </ItemGroup>
@@ -39,6 +36,7 @@
     <PackageReference Include="Google.Protobuf" Version="3.26.1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
     <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="Retromono.Tweens" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,8 +1,12 @@
-﻿using System.Net;
+﻿using Retromono.Tweens;
+using System.Net;
+using XFrame.Core;
 using XFrame.Core.Threads;
+using XFrame.Modules.Diagnotics;
 using XFrame.Modules.Entities;
 using XFrame.Modules.Procedure;
 using XFrame.Tasks;
+using XFrameServer.Core.Animations;
 using XFrameServer.Test;
 using XFrameShare.Network;
 
@@ -16,13 +20,14 @@ namespace XFrameServer.Core.Procedures
 
             GameConst.Initialize();
             InnerCreateServer();
-            //XTask.Delay(5).OnCompleted(() =>
-            //{
-            //    for (int i = 0; i < 10; i++)
-            //    {
-            //        InnerCreateClient();
-            //    }
-            //}).Coroutine();
+
+            XTask.Delay(5).OnCompleted(() =>
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    InnerCreateClient();
+                }
+            }).Coroutine();
         }
 
         #region Server
