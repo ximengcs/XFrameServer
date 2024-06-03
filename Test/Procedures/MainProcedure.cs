@@ -1,5 +1,6 @@
 ﻿using Retromono.Tweens;
 using System.Net;
+using System.Net.Sockets;
 using XFrame.Core;
 using XFrame.Core.Threads;
 using XFrame.Modules.Diagnotics;
@@ -17,9 +18,10 @@ namespace XFrameServer.Core.Procedures
         protected override void OnEnter()
         {
             base.OnEnter();
+
             GameConst.Initialize();
             InnerCreateServer();
-            InnerTestClient(20);
+            //InnerTestClient(20);
         }
 
         private void InnerTestClient(int count)
