@@ -38,7 +38,7 @@ namespace XFrameServer.Core.Procedures
         #region Server
         private void InnerCreateServer()
         {
-            Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
+            Fiber serverFiber = Global.Fiber.GetOrNew(GameConst.SERVER_STR, GameConst.FIBER_ID);
             serverFiber.StartThread(10);
             IScene serverScene = Global.Scene.Create(serverFiber);
             serverScene.Fiber.Post(InnerCreateServerScene, serverScene);
@@ -60,7 +60,7 @@ namespace XFrameServer.Core.Procedures
         #region Client
         private void InnerCreateClient()
         {
-            Fiber clientFiber = Global.Fiber.GetOrNew(GameConst.FIBER_ID);
+            Fiber clientFiber = Global.Fiber.GetOrNew(GameConst.CLIENT_STR, GameConst.FIBER_ID);
             clientFiber.StartThread(10);
             IScene clientScene = Global.Scene.Create(clientFiber);
             clientScene.Fiber.Post(InnerCreateClientScene, clientScene);

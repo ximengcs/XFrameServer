@@ -1,5 +1,6 @@
 ﻿
 using XFrame.Core.Threads;
+using XFrameShare.Network;
 
 namespace XFrameServer.Test
 {
@@ -15,9 +16,12 @@ namespace XFrameServer.Test
 
         public static void Initialize()
         {
-            s_NetFiber = Global.Fiber.GetOrNew(NET_FIBER);
+            s_NetFiber = Global.Fiber.GetOrNew(nameof(NetConst.Net), NET_FIBER);
             s_NetFiber.StartThread(1);
             Global.Net.SetFiber(s_NetFiber);
         }
+
+        public const string SERVER_STR = "Server";
+        public const string CLIENT_STR = "Client";
     }
 }
