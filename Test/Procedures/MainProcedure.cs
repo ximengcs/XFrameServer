@@ -21,7 +21,7 @@ namespace XFrameServer.Core.Procedures
 
             GameConst.Initialize();
             InnerCreateServer();
-            //InnerTestClient(20);
+            //InnerTestClient(2);
         }
 
         private void InnerTestClient(int count)

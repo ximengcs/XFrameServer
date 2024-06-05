@@ -10,8 +10,8 @@ using XFrameShare.Network;
 
 namespace XFrameServer.Test.Robot
 {
-    [NetEntityComponent(typeof(Client), NetMode.Client)]
-    public class Robot : Entity, INetEntityComponent
+    [NetChildOf(typeof(Client), NetMode.Client)]
+    public class Robot : Entity, INetFriendComponent
     {
         private Client m_Client;
         private PlayerMoveComponent m_Movement;
@@ -22,7 +22,7 @@ namespace XFrameServer.Test.Robot
             m_Client = Parent as Client;
         }
 
-        public void OnReady()
+        public void OnFriendReady()
         {
             m_Movement = m_Client.GetHandlerInstance<PlayerMoveComponent>();
 
