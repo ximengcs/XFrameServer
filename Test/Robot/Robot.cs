@@ -1,12 +1,9 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using System.Numerics;
-using TestGame.Share.Clients;
-using TestGame.Share.Servers;
-using XFrame.Modules.Diagnotics;
+﻿using System.Numerics;
 using XFrame.Modules.Entities;
 using XFrame.Tasks;
 using XFrameServer.Core.Animations;
 using XFrameShare.Network;
+using XFrameShare.Network.Tests;
 
 namespace XFrameServer.Test.Robot
 {
